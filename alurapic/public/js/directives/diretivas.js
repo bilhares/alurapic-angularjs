@@ -5,11 +5,11 @@ angular.module('minhasDiretivas', [])
             scope: {
                 titulo: '@titulo'
             },
-            transclude:true,
-            templateUrl:'js/directives/meu-painel.html'
+            transclude: true,
+            templateUrl: 'js/directives/meu-painel.html'
         };
     })
-    .directive('minhaFoto', function() {
+    .directive('minhaFoto', function () {
 
         var ddo = {};
 
@@ -20,8 +20,22 @@ angular.module('minhasDiretivas', [])
             url: '@'
         };
 
-        ddo.template = '<img class="img-responsive center-block" src="{{url}}" alt="{{titulo}}">';           
+        ddo.template = '<img class="img-responsive center-block" src="{{url}}" alt="{{titulo}}">';
 
         return ddo;
 
+    })
+    .directive('meuBotaoPerigo', function () {
+        var ddo = {};
+
+        ddo.restrict = "AE";
+
+        ddo.scope = {
+            acao: '&',
+            nome: '@'
+        };
+
+        ddo.template = '<button class="btn btn-danger btn-block" ng-click="acao(foto)">{{nome}}</button>';
+
+        return ddo;
     });
