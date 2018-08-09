@@ -1,24 +1,20 @@
-angular.module('alurapic').controller('FotosController', function ($scope, $http) {
+angular.module('alurapic').controller('FotosController', function ($scope, recursoFoto) {
     $scope.filtro = '';
     $scope.fotos = [];
     $scope.mensagem = "";
 
-    $http.get('v1/fotos').then(
-        function success(response) {
-            $scope.fotos = response.data;
-        }
-    );
+    recursoFoto.query(function (fotos) {
+        $scope.fotos = fotos;
+    });
 
     $scope.remover = function (foto) {
-        $http.delete('v1/fotos/' + foto._id).then(
-            function success(response) {
-                var indiceFoto = $scope.fotos.indexOf(foto);
-                $scope.fotos.splice(indiceFoto, 1);
-                $scope.mensagem = "Foto removida com sucesso";
-            },
-            function error(response) {
-                $scope.foto = "Erro ao remover foto";
-            }
-        );
+
+        recursoFoto.delete({ id: foto._id }, function () {
+            var indiceFoto = $scope.fotos.indexOf(foto);
+            $scope.fotos.splice(indiceFoto, 1);
+            $scope.mensagem = "Foto removida com sucesso";
+        }, function (erro) {
+            $scope.foto = "Erro ao remover foto";
+        });
     }
 });
